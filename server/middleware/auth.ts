@@ -1,6 +1,8 @@
 import jwt from 'jsonwebtoken';
+import { Request, Response, NextFunction } from 'express';
+import { IUser } from "../models/User";
 
-export const verifyToken = async (req, res, next) => {
+export const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
     try {
         let token = req.header("Authorization");
 
@@ -10,9 +12,9 @@ export const verifyToken = async (req, res, next) => {
         if (token.startsWith("Bearer "))
             token = token.slice(7, token.length).trimLeft();
 
-        const verified = jwt.verify(token, process.env.JWT_SECRET);
+        const verified = jwt.verify(token, process.env.JWT_SECRET!);
 
-        req.user = verified;
+        req.user = verified as IUser;
 
         next();
     } catch (err) {
