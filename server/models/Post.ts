@@ -38,7 +38,7 @@ const PostSchema: Schema = new Schema<IPost>({
         of: Boolean,
     },
     comments: {
-        types: Array,
+        type: [] as String[],
         default: []
     },
 }, { timestamps: true });
