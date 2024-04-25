@@ -1,10 +1,10 @@
 import express, { Router } from "express";
-import { verifyToken } from "../middleware/auth";
+import { verifyToken } from "../middleware/auth.ts";
 import {
     getUser,
     getUserFriends,
-    addRemoveFriend
-} from '../controllers/users';
+    addOrRemoveFriend
+} from '../controllers/users.ts';
 
 const router: Router = express.Router();
 
@@ -13,7 +13,7 @@ router.get("/:id", verifyToken, getUser);
 router.get("/:id/friends", verifyToken, getUserFriends);
 
 /* UPDATE */
-router.patch("/:id/:friendId", verifyToken, addRemoveFriend);
+router.patch("/:id/:friendId", verifyToken, addOrRemoveFriend);
 
 export default router;
 

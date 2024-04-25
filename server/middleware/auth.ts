@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
-import { IUser } from "../models/User";
+import { IUser } from "../models/User.ts";
 
 declare global {
     namespace Express {
@@ -29,3 +29,4 @@ export const verifyToken = async (req: Request, res: Response, next: NextFunctio
         return res.status(500).json({ error: err.message });
     }
 };
+

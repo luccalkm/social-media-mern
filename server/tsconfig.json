@@ -1,23 +1,18 @@
 {
     "compilerOptions": {
-        "module": "es2020",
-        "moduleResolution": "node",
-        "target": "es6",
-        "noImplicitAny": false,
-        "esModuleInterop": true,
-        "sourceMap": false,
-        "outDir": "dist",
-        "baseUrl": ".",
-        "paths": {
-            "*": [
-                "node_modules/*"
-            ]
-        }
+      "module": "ESNext",  // Targets the latest ECMAScript module standard
+      "target": "ES2020",  // Compile to a suitable target for modern environments
+      "moduleResolution": "node",
+      "esModuleInterop": true,
+      "allowImportingTsExtensions": true,
+      "noEmit": true,
+      "outDir": "dist",
+      "baseUrl": ".",
+      "paths": {
+        "*": ["node_modules/*"]
+      }
     },
-    "include": [
-        "*.ts", "*.js"
-    ],
-    "exclude": [
-        "node_modules"
-    ]
-}
+    "include": ["*.ts", "*.js", "**/*.ts"],
+    "exclude": ["node_modules"]
+  }
+  

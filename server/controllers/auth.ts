@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { Request, Response } from "express";
-import User, { IUser } from "../models/User";
+import User, { IUser } from "../models/User.ts";
 
 // Register user
 export const register = async (req: Request, res: Response) => {

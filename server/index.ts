@@ -8,8 +8,16 @@ import helmet from "helmet";
 import morgan from "morgan";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
-import authRoutes from "./routes/auth";
-import { register } from "./controllers/auth";
+import authRoutes from "./routes/auth.ts";
+import userRoutes from "./routes/users.ts";
+import postsRoutes from "./routes/posts.ts";
+import { register } from "./controllers/auth.ts";
+import { createPost } from "./controllers/posts.ts"
+import { verifyToken } from "./middleware/auth.ts";
+import User from "./models/User.ts";
+import Post from "./models/Post.ts";
+import { users, posts } from "./data/index.js";
+
 
 // Configurations
 const __filename = fileURLToPath(import.meta.url);
@@ -40,9 +48,12 @@ const upload = multer({ storage });
 
 // ROUTES WITH FILES
 app.post("/auth/register", upload.single("picture"), register);
+app.post("/posts", verifyToken, upload.single("picture"), createPost)
 
 // ROUTES
 app.use("/auth", authRoutes);
+app.use("/users", userRoutes);
+app.use("/posts", postsRoutes);
 
 // MONGOOSE SETUP
 const PORT = process.env.PORT || 6001;
@@ -51,7 +62,24 @@ mongoose.connect(process.env.MONGO_URL || 'chill', {
     useUnifiedTopology: true,
 } as mongoose.ConnectOptions).then(() => {
     app.listen(PORT, () => { console.log("Server running on port " + PORT); });
+    initializeData();
 }).catch((error) => {
     console.error("MongoDB connection error:", error);
 });
 
+async function initializeData() {
+    const usersExist = await User.countDocuments();
+    const postsExist = await Post.countDocuments();
+
+    if (!usersExist) {
+        User.insertMany(users).catch(err => {
+            console.log('Error adding users:', err);
+        });
+    }
+
+    if (!postsExist) {
+        Post.insertMany(posts).catch(err => {
+            console.log('Error adding posts:', err);
+        });
+    }
+}
