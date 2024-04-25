@@ -9,7 +9,7 @@ export const register = async (req: Request, res: Response) => {
         const { firstName, lastName, email, password, picturePath, friends, location, occupation } = req.body;
 
         if (!password)
-            res.status(400).json({ message: "Password is required." });
+            res.status(400).json({ message: "A senha precisa ser informada." });
 
         const salt = await bcrypt.genSalt();
         const passwordHash = await bcrypt.hash(email + password, salt);
@@ -44,11 +44,11 @@ export const login = async (req: Request, res: Response) => {
         const user = await User.findOne({ email: email });
 
         if (!user)
-            return res.status(400).json({ msg: "User does not exist." });
+            return res.status(400).json({ msg: "Usuário não existe." });
 
         const isValidPassword = await bcrypt.compare(email + password, user.password!);
         if (!isValidPassword)
-            return res.status(400).json({ msg: "Invalid credentials." });
+            return res.status(400).json({ msg: "Credenciais inválidas." });
 
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET!);
         delete user.password;
