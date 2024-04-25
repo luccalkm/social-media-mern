@@ -5,7 +5,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "node dist/index.js",
+    "start": "nodemon --experimental-modules --es-module-specifier-resolution=node dist/index.js",
     "dev": "nodemon --exec ts-node index.ts",
     "build": "tsc"
   },
